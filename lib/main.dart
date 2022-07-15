@@ -178,7 +178,7 @@ class MyApp extends StatelessWidget {
       columnContent.add(
         const ListTile(
           title: Text(
-            "Loadiing...",
+            "Loading...",
             style: TextStyle(fontSize: 18.0),
           ),
           //    leading: new Icon(sevas.image),
