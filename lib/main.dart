@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -7,15 +8,14 @@ void main() {
   runApp(const MyApp());
 }
 
-String selectedId = "51";
 List<SevasItem> sevaList = [];
+Map<int, List<SevasItem>> mapList = HashMap();
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  Future<List<SevasItem>> getSevas() async {
-    Uri u = Uri.https(
-        'testapi.devaseva.com', 'api/campaigns/GetAllSevas/$selectedId');
+  Future<List<SevasItem>> getSevas(int id) async {
+    Uri u = Uri.https('testapi.devaseva.com', 'api/campaigns/GetAllSevas/$id');
     var res = await http.get(u);
     var jsonData = jsonDecode(res.body);
 
@@ -42,9 +42,9 @@ class MyApp extends StatelessWidget {
           u['templeId'],
           u['templeImage'],
           u['templeName']);
+      print("wertsdfggfds");
       sevasItem.add(a);
     }
-    sevaList = sevasItem as List<SevasItem>;
     return sevasItem;
   }
 
@@ -84,6 +84,14 @@ class MyApp extends StatelessWidget {
       allCompaignsItem.add(a);
     }
     print(allCompaignsItem.length);
+
+    for (AllCampaignsItem d in allCompaignsItem) {
+      print(d.id);
+      Future<List<SevasItem>> l = getSevas(d.id);
+      List<SevasItem> list = await l;
+      mapList.putIfAbsent(d.id, () => list);
+    }
+    print("after");
     return allCompaignsItem;
   }
 
@@ -124,30 +132,10 @@ class MyApp extends StatelessWidget {
                 } else {
                   List<AllCampaignsItem> s =
                       snapshot.data as List<AllCampaignsItem>;
-                  List<SevasItem> seva = [];
-                  seva.add(SevasItem(1, 2, 'd', 'd', 'description', 3, 3, 5, 5,
-                      7, 7, 'd', 'd', 'd', 'd', 8, 9, 6, 6, 3));
                   return ListView.builder(
                       itemCount: s.length,
                       itemBuilder: (context, i) {
                         return GestureDetector(
-                          onTap: () {
-                            //   setState(() {
-                            selectedId = s[i].id;
-                            child:
-                            FutureBuilder(
-                                future: getSevas(),
-                                initialData: [],
-                                builder: (context, snapshot) {
-                                  List<SevasItem> s =
-                                      snapshot.data as List<SevasItem>;
-                                  return _buildExpandableContent(s);
-                                });
-                            // Divider(
-                            //   height: 2.0,
-                            // );
-                            //  });
-                          },
                           child: Card(
                             child: ExpansionTile(
                               title: Text(s[i].name),
@@ -155,7 +143,8 @@ class MyApp extends StatelessWidget {
                               trailing: Text(s[i].code),
                               children: <Widget>[
                                 Column(
-                                  children: _buildExpandableContent(sevaList),
+                                  children: _buildExpandableContent(
+                                      mapList[(s[i].id)]!),
                                 ),
                               ],
                             ),
@@ -173,12 +162,13 @@ class MyApp extends StatelessWidget {
 
   _buildExpandableContent(List<SevasItem> sevasItem) {
     List<Widget> columnContent = [];
+
     if (sevasItem.isNotEmpty) {
       for (SevasItem sevas in sevasItem)
         columnContent.add(
           new ListTile(
             title: new Text(
-              sevas.description,
+              sevas.name,
               style: new TextStyle(fontSize: 18.0),
             ),
             //    leading: new Icon(sevas.image),
@@ -195,6 +185,7 @@ class MyApp extends StatelessWidget {
         ),
       );
     }
+
     return columnContent;
   }
 }
@@ -219,6 +210,10 @@ class AllCampaignsItem {
   var templeId;
   var templeImage;
   String templeName;
+  int getInt() {
+    return id;
+  }
+
   AllCampaignsItem(
       this.code,
       this.createdBy,
@@ -246,16 +241,16 @@ class SevasItem {
   var campaignSevaLanguageId;
   var category;
   var code;
-  String description;
+  var description;
   var detailsMandatory;
   var devoteeCount;
   var discountedPrice;
   var displayPrice;
   var enabled;
-  var id;
+  int id = 0;
   var image;
   var marketPrice;
-  var name;
+  var name = "adarsh";
   var priority;
   var sevaId;
   var templeCode;
@@ -283,4 +278,5 @@ class SevasItem {
       this.templeId,
       this.templeImage,
       this.templeName);
+  // SevasItem(this.id);
 }
