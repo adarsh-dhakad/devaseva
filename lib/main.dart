@@ -8,7 +8,7 @@ void main() {
   runApp(const MyApp());
 }
 
-List<SevasItem> sevaList = [];
+
 Map<int, List<SevasItem>> mapList = HashMap();
 
 class MyApp extends StatelessWidget {
@@ -141,7 +141,15 @@ class MyApp extends StatelessWidget {
                               title: Text(s[i].name),
                               subtitle: Text(s[i].templeName),
                               trailing: Text(s[i].code),
+                              leading: Icon(
+                                Icons.contact_phone,
+                                color: Colors.blue[500],
+                              ),
                               children: <Widget>[
+                                //https://testapi.devaseva.com/
+                                // Text('${s[i].id} ${mapList[s[i].id]}'),
+                                //
+                                // Image.network('https://testapi.devaseva.com${(mapList[s[i].id] as List<SevasItem>).first.templeImage}'),
                                 Column(
                                   children: _buildExpandableContent(
                                       mapList[(s[i].id)]!),
