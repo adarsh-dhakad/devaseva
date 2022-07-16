@@ -1,5 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'model/AllCampaignsItem.dart';
+import 'model/SevasItem.dart';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -7,7 +9,6 @@ import 'package:http/http.dart' as http;
 void main() {
   runApp(const MyApp());
 }
-
 
 Map<int, List<SevasItem>> mapList = HashMap();
 
@@ -137,25 +138,45 @@ class MyApp extends StatelessWidget {
                       itemBuilder: (context, i) {
                         return GestureDetector(
                           child: Card(
-                            child: ExpansionTile(
-                              title: Text(s[i].name),
-                              subtitle: Text(s[i].templeName),
-                              trailing: Text(s[i].code),
-                              leading: Icon(
-                                Icons.contact_phone,
-                                color: Colors.blue[500],
-                              ),
-                              children: <Widget>[
-                                //https://testapi.devaseva.com/
-                                // Text('${s[i].id} ${mapList[s[i].id]}'),
-                                //
-                                // Image.network('https://testapi.devaseva.com${(mapList[s[i].id] as List<SevasItem>).first.templeImage}'),
-                                Column(
-                                  children: _buildExpandableContent(
-                                      mapList[(s[i].id)]!),
+                            child: Column(children: [
+                              ExpansionTile(
+                                title: Text(s[i].name),
+                                subtitle: Text(s[i].templeName),
+                                trailing: Text(s[i].code),
+                                leading: Icon(
+                                  Icons.contact_phone,
+                                  color: Colors.blue[500],
                                 ),
-                              ],
-                            ),
+                                children: <Widget>[
+                                  //https://testapi.devaseva.com/
+                                  // Text('${s[i].id} ${mapList[s[i].id]}'),
+                                  //
+                                  // Image.network('https://testapi.devaseva.com${(mapList[s[i].id] as List<SevasItem>).first.templeImage}'),
+                                  Column(
+                                    children: _buildExpandableContent(
+                                        mapList[(s[i].id)]!),
+                                  ),
+                                ],
+                              ),
+                              Row(children: [
+                                SizedBox(
+                                  height: 100.0,
+                                  width: 100.0,
+                                  child: Column(children: [
+                                    Image.network(
+                                        'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif')
+                                  ]),
+                                ),
+                                SizedBox(
+                                  height: 100.0,
+                                  width: 100.0,
+                                  child: Column(children: [
+                                    Image.network(
+                                        'https://picsum.photos/250?image=9'),
+                                  ]),
+                                ),
+                              ]),
+                            ]),
                           ),
                         );
                       });
@@ -196,95 +217,4 @@ class MyApp extends StatelessWidget {
 
     return columnContent;
   }
-}
-
-class AllCampaignsItem {
-  String code;
-  var createdBy;
-  var description;
-  var donorCount;
-  var endDate;
-  var featured;
-  var id;
-  var image;
-  String name;
-  var prasadRequest;
-  var priority;
-  var raisedAmount;
-  var shortDesc;
-  var status;
-  var targetAmount;
-  var templeCode;
-  var templeId;
-  var templeImage;
-  String templeName;
-  int getInt() {
-    return id;
-  }
-
-  AllCampaignsItem(
-      this.code,
-      this.createdBy,
-      this.description,
-      this.donorCount,
-      this.endDate,
-      this.featured,
-      this.id,
-      this.image,
-      this.name,
-      this.prasadRequest,
-      this.priority,
-      this.raisedAmount,
-      this.shortDesc,
-      this.status,
-      this.targetAmount,
-      this.templeCode,
-      this.templeId,
-      this.templeImage,
-      this.templeName);
-}
-
-class SevasItem {
-  var campaignId;
-  var campaignSevaLanguageId;
-  var category;
-  var code;
-  var description;
-  var detailsMandatory;
-  var devoteeCount;
-  var discountedPrice;
-  var displayPrice;
-  var enabled;
-  int id = 0;
-  var image;
-  var marketPrice;
-  var name = "adarsh";
-  var priority;
-  var sevaId;
-  var templeCode;
-  var templeId;
-  var templeImage;
-  var templeName;
-  SevasItem(
-      this.campaignId,
-      this.campaignSevaLanguageId,
-      this.category,
-      this.code,
-      this.description,
-      this.detailsMandatory,
-      this.devoteeCount,
-      this.discountedPrice,
-      this.displayPrice,
-      this.enabled,
-      this.id,
-      this.image,
-      this.marketPrice,
-      this.name,
-      this.priority,
-      this.sevaId,
-      this.templeCode,
-      this.templeId,
-      this.templeImage,
-      this.templeName);
-  // SevasItem(this.id);
 }
