@@ -117,46 +117,53 @@ class _Screen extends State<Screen> {
                       itemCount: campaignsList.length,
                       itemBuilder: (BuildContext context, i) {
                         return Card(
+                          elevation: 3,
                           color: Colors.white,
                           margin: const EdgeInsets.symmetric(
                             vertical: 10.0,
                             horizontal: 25.0,
                           ),
-                          child: Column(children: [
-                            ExpansionTile(
-                              title: Text(campaignsList[i].name),
-                              subtitle: Text(campaignsList[i].templeName),
-                              trailing: Text(campaignsList[i].code),
-                              leading: Icon(
-                                Icons.contact_phone,
-                                color: Colors.blue[500],
+                          child: ClipPath(
+                            clipper: ShapeBorderClipper(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(3))),
+                            child: Column(children: [
+                              const CircleAvatar(
+                                radius: 50.0,
+                                backgroundImage: AssetImage('images/temple.jpg'),
+                             )
+                              ,
+                              ExpansionTile(
+                                title: Text(campaignsList[i].name),
+                                subtitle: Text(campaignsList[i].templeName),
+                                leading : Text(campaignsList[i].code),
+                                children: <Widget>[
+                                  Column(
+                                    children: _buildExpandableContent(
+                                        mapList[(campaignsList[i].id)]!),
+                                  ),
+                                ],
                               ),
-                              children: <Widget>[
-                                Column(
-                                  children: _buildExpandableContent(
-                                      mapList[(campaignsList[i].id)]!),
+                              Row(children: [
+                                SizedBox(
+                                  height: 100.0,
+                                  width: 100.0,
+                                  child: Column(children: [
+                                    Image.network(
+                                        'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif')
+                                  ]),
                                 ),
-                              ],
-                            ),
-                            Row(children: [
-                              SizedBox(
-                                height: 100.0,
-                                width: 100.0,
-                                child: Column(children: [
-                                  Image.network(
-                                      'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif')
-                                ]),
-                              ),
-                              SizedBox(
-                                height: 100.0,
-                                width: 100.0,
-                                child: Column(children: [
-                                  Image.network(
-                                      'https://picsum.photos/250?image=9'),
-                                ]),
-                              ),
+                                SizedBox(
+                                  height: 100.0,
+                                  width: 100.0,
+                                  child: Column(children: [
+                                    Image.network(
+                                        'https://picsum.photos/250?image=9'),
+                                  ]),
+                                ),
+                              ]),
                             ]),
-                          ]),
+                          ),
                         );
                       }))
             ]),
@@ -169,17 +176,23 @@ class _Screen extends State<Screen> {
     if (sevasItem.isNotEmpty) {
       for (SevasItem seva in sevasItem) {
         columnContent.add(
-          ListTile(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-              side: const BorderSide(
-                  color: Colors.lightBlueAccent, width: 3),
+          ClipPath(
+            clipper: ShapeBorderClipper(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15))),
+            child: ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+                side: const BorderSide(
+                    color: Colors.lightBlueAccent, width: 3),
+              ),
+              title: Text(
+                seva.name,
+                style: const TextStyle(fontSize: 18.0),
+              ),
+              subtitle: Text(" ${seva.description}"),
+              //    leading: new Icon(sevas.image),
             ),
-            title: Text(
-              seva.name,
-              style: const TextStyle(fontSize: 18.0),
-            ),
-            //    leading: new Icon(sevas.image),
           ),
         );
       }

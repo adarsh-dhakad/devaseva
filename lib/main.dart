@@ -10,20 +10,18 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 Map<int, List<SevasItem>> mapList = HashMap();
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
   getDioData() async {
 //   var dio = Dio();
 //   final response = await dio.get('https://google.com');
 //   print(response.data);
   }
-
-  MyApp({Key? key}) : super(key: key);
-  bool waiting = true;
 
   Future<List<SevasItem>> getSevas(int id) async {
     Uri u = Uri.https('testapi.devaseva.com', 'api/campaigns/GetAllSevas/$id');
