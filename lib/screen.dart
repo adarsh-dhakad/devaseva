@@ -116,49 +116,47 @@ class _Screen extends State<Screen> {
                   child: ListView.builder(
                       itemCount: campaignsList.length,
                       itemBuilder: (BuildContext context, i) {
-                        return GestureDetector(
-                          child: Card(
-                            color: Colors.white,
-                            margin: const EdgeInsets.symmetric(
-                              vertical: 10.0,
-                              horizontal: 25.0,
-                            ),
-                            child: Column(children: [
-                              ExpansionTile(
-                                title: Text(campaignsList[i].name),
-                                subtitle: Text(campaignsList[i].templeName),
-                                trailing: Text(campaignsList[i].code),
-                                leading: Icon(
-                                  Icons.contact_phone,
-                                  color: Colors.blue[500],
-                                ),
-                                children: <Widget>[
-                                  Column(
-                                    children: _buildExpandableContent(
-                                        mapList[(campaignsList[i].id)]!),
-                                  ),
-                                ],
-                              ),
-                              Row(children: [
-                                SizedBox(
-                                  height: 100.0,
-                                  width: 100.0,
-                                  child: Column(children: [
-                                    Image.network(
-                                        'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif')
-                                  ]),
-                                ),
-                                SizedBox(
-                                  height: 100.0,
-                                  width: 100.0,
-                                  child: Column(children: [
-                                    Image.network(
-                                        'https://picsum.photos/250?image=9'),
-                                  ]),
-                                ),
-                              ]),
-                            ]),
+                        return Card(
+                          color: Colors.white,
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 25.0,
                           ),
+                          child: Column(children: [
+                            ExpansionTile(
+                              title: Text(campaignsList[i].name),
+                              subtitle: Text(campaignsList[i].templeName),
+                              trailing: Text(campaignsList[i].code),
+                              leading: Icon(
+                                Icons.contact_phone,
+                                color: Colors.blue[500],
+                              ),
+                              children: <Widget>[
+                                Column(
+                                  children: _buildExpandableContent(
+                                      mapList[(campaignsList[i].id)]!),
+                                ),
+                              ],
+                            ),
+                            Row(children: [
+                              SizedBox(
+                                height: 100.0,
+                                width: 100.0,
+                                child: Column(children: [
+                                  Image.network(
+                                      'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif')
+                                ]),
+                              ),
+                              SizedBox(
+                                height: 100.0,
+                                width: 100.0,
+                                child: Column(children: [
+                                  Image.network(
+                                      'https://picsum.photos/250?image=9'),
+                                ]),
+                              ),
+                            ]),
+                          ]),
                         );
                       }))
             ]),
@@ -172,6 +170,11 @@ class _Screen extends State<Screen> {
       for (SevasItem seva in sevasItem) {
         columnContent.add(
           ListTile(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+              side: const BorderSide(
+                  color: Colors.lightBlueAccent, width: 3),
+            ),
             title: Text(
               seva.name,
               style: const TextStyle(fontSize: 18.0),
